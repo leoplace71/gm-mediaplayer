@@ -41,14 +41,14 @@ AddMediaPlayerModel(
 -- Сustom
 
 AddMediaPlayerModel(
-	"../spawnicons/models/hunter/plates/plate8x8",
+	"../spawnicons/models/hunter/plates/plate8x16",
 	"Huge Billboard x2",
-	"models/hunter/plates/plate8x8.mdl",
+	"models/hunter/plates/plate8x16.mdl",
 	{
 		angle = Angle(0, 90, 0),
-		offset = Vector(-237.6, 379,6.8, 5),
+		offset = Vector(-190, 380,2),
 		width = 760,
-		height = 476
+		height = 380
 	}
 )
 
