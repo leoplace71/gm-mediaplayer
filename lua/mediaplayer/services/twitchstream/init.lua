@@ -52,7 +52,7 @@ function SERVICE:GetMetadata( callback )
 		function( code )
 			callback(false, "Failed to load Twitch.TV ["..tostring(code).."]")
 		end,
-		{ -- Twitch.TV API Helix headers
+		{ -- Twitch.TV Helix API
 			["Client-ID"] = APIKey
 		}
 	)
