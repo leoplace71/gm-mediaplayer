@@ -4,7 +4,7 @@ include "shared.lua"
 local urllib = url
 
 local APIKey = MediaPlayer.GetConfigValue('twitch.client_id')
-local MetadataUrl = "https://api.twitch.tv/kraken/streams/%s?client_id=%s"
+local MetadataUrl = "https://api.twitch.tv/helix/streams?user_login=%s"
 
 local function OnReceiveMetadata( self, callback, body )
 
@@ -15,19 +15,19 @@ local function OnReceiveMetadata( self, callback, body )
 		callback(false)
 		return
 	end
-	
-	local stream = response.stream
 
-	-- Stream offline
+	local stream = response.data[1]
+
 	if not stream then
 		return callback( false, "Twitch.TV: The requested stream was offline" )
 	end
 
-	local channel = stream.channel
-	local status = channel and channel.status or "Twitch.TV Stream"
+	local thumbnail = stream.thumbnail_url
+	thumbnail = thumbnail:Replace("{width}", "1280")
+	thumbnail = thumbnail:Replace("{height}", "720")
 
-	metadata.title = status
-	metadata.thumbnail = stream.preview.medium
+	metadata.title = stream and stream.title or "Twitch.TV Stream"
+	metadata.thumbnail = thumbnail
 
 	self:SetMetadata(metadata, true)
 
@@ -43,7 +43,7 @@ function SERVICE:GetMetadata( callback )
 	end
 
 	local channel = self:GetTwitchChannel()
-	local apiurl = MetadataUrl:format( channel, APIKey )
+	local apiurl = MetadataUrl:format( channel )
 
 	self:Fetch( apiurl,
 		function( body, length, headers, code )
@@ -52,10 +52,8 @@ function SERVICE:GetMetadata( callback )
 		function( code )
 			callback(false, "Failed to load Twitch.TV ["..tostring(code).."]")
 		end,
-
-		-- Twitch.TV API v3 headers
-		{
-			["Accept"] = "application/vnd.twitchtv.v3+json"
+		{ -- Twitch.TV API v5 headers
+			["Client-ID"] = APIKey
 		}
 	)
 
