@@ -23,6 +23,7 @@ if CLIENT then
 			w = resolution * (entwidth / entheight)
 		end
 
+		browser.OnFinishLoading = function(self) end
 		MediaPlayer.SetBrowserSize( browser, w, h )
 
 		-- Implement this in a child service
