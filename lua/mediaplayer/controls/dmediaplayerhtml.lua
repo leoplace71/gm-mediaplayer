@@ -57,7 +57,36 @@ function PANEL:Init()
 
 end
 
+
+function PANEL:FixAutoplay()
+	do return end -- GMod now has autoplay-policy=no-user-gesture-required 
+	self.autoplayfix = 0
+end
+
+function PANEL:FixAutoplayThink()
+	if not self.autoplayfix then return end
+	self.autoplayfix = self.autoplayfix + 1
+	if self.autoplayfix == 1 then
+		self:MouseCapture(true)
+		
+		self.apMouseEnabled = self:IsMouseInputEnabled()
+	
+		self:SetMouseInputEnabled(true)
+		gui.EnableScreenClicker(true)
+		gui.InternalCursorMoved(0, 0)
+		gui.InternalMousePressed(MOUSE_LEFT)
+		gui.InternalMouseReleased(MOUSE_LEFT)
+	elseif self.autoplayfix == 2 then
+		gui.EnableScreenClicker(false)
+		self:SetMouseInputEnabled(self.apMouseEnabled)
+		self:MouseCapture(false)
+		self.autoplayfix = false
+	end
+end
+
 function PANEL:Think()
+
+	self:FixAutoplayThink()
 
 	if self:IsLoading() then
 
@@ -213,6 +242,12 @@ function PANEL:OnStartLoading()
 
 end
 
+--
+-- Called when the page finishes loading all assets
+--
+function PANEL:OnFinishLoadingDocument()
+	self:FixAutoplay()
+end
 --
 -- Called when the page finishes loading all assets
 --

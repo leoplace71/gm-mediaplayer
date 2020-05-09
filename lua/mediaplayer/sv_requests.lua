@@ -32,14 +32,25 @@ end
 
 net.Receive( "MEDIAPLAYER.RequestListen", RequestWrapper(function(mp, ply)
 
+	local want_play
+	if not net.ReadBool() then
+		want_play = net.ReadBool()		
+	end
+			
 	if MediaPlayer.DEBUG then
-		print("MEDIAPLAYER.RequestListen:", mpId, ply)
+		print("MEDIAPLAYER.RequestListen:", mpId, ply,want_play==nil and "toggle" or want_play and "play" or "stop")
 	end
 
+	
 	-- TODO: check if listener can actually be a listener
 	if mp:HasListener(ply) then
+		if want_play == true then 
+			-- mp:SendMedia( mp:GetMedia(), ply )
+			return
+		end
 		mp:RemoveListener(ply)
 	else
+		if want_play == false then return end
 		mp:AddListener(ply)
 	end
 
@@ -75,6 +86,10 @@ net.Receive( "MEDIAPLAYER.RequestMedia", RequestWrapper(function(mp, ply)
 	-- Validate the URL
 	if not MediaPlayer.ValidUrl( url ) and not allowWebpage then
 		mp:NotifyPlayer( ply, "The requested URL was invalid." )
+		return
+	end
+
+	if hook.Call("PreMediaPlayerRequestMedia", nil, mp, ply, url) then
 		return
 	end
 
