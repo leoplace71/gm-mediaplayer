@@ -26,7 +26,7 @@ if SERVER then
     function ENT:OnMediaChanged( media )
         self:SetMediaThumbnail( media and media:Thumbnail() or "" )
     end
-else -- CLIRNT
+else -- CLIENT
     local draw = draw
     local surface = surface
     local Start3D2D = cam.Start3D2D
