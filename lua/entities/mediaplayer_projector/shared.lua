@@ -12,6 +12,13 @@ ENT.Spawnable = true
 
 ENT.Model = Model("models/dav0r/camera.mdl")
 
+ENT.PlayerConfig = {
+	offset = Vector(512, -512, 256),
+	angle  = Angle(0, -90, 90),
+	width  = 1024,
+	height = 512
+}
+
 function ENT:SetupDataTables()
     BaseClass.SetupDataTables( self )
 
