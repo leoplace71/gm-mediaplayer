@@ -56,8 +56,7 @@ else -- CLIENT
         return tr
     end
 
-    local RenderScale = 1
-    local InfoScale = 1 / 17
+     local InfoScale = 1 / 17
     local BaseInfoHeight = 60
     local FullscreenCvar = MediaPlayer.Cvars.Fullscreen
     function ENT:SetupMediaPlayer( mp )
@@ -73,20 +72,18 @@ else -- CLIENT
 
             local scale = 1
 
-            local rw, rh = w / RenderScale, h / RenderScale
-
             if tr.Hit then
                 scale = tr.HitPos:Distance(ent:LocalToWorld(ent:OBBCenter())) * 0.001
                 ang = tr.HitNormal:Angle()
                 ang:RotateAroundAxis(ang:Up(), 90)
                 ang:RotateAroundAxis(ang:Forward(), 90)
-                pos = tr.HitPos - ang:Right() * (rh / 2 * scale) - ang:Forward() * (rw / 2 * scale)
+                pos = tr.HitPos - ang:Right() * (h / 2 * scale) - ang:Forward() * (w / 2 * scale) + ang:Up() * 2
             end
 
             if IsValid(media) then
                 if media.Draw then
                     Start3D2D( pos, ang, scale )
-                        media:Draw( rw, rh )
+                        media:Draw( w, h )
                     End3D2D()
                 end
                 -- TODO: else draw 'not yet implemented' screen?
@@ -96,12 +93,12 @@ else -- CLIENT
 
                 -- Media info
                 Start3D2D( pos, ang, iscale )
-                    local iw, ih = w / iscale, h / iscale
+                    local iw, ih = w / iscale * scale, h / iscale * scale
                     s:DrawMediaInfo( media, iw, ih )
                 End3D2D()
             else
                 Start3D2D( pos, ang, scale )
-                    s:DrawIdlescreen( rw, rh )
+                    s:DrawIdlescreen( w, h )
                 End3D2D()
             end
         end
