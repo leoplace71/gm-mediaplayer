@@ -2,14 +2,15 @@
 SERVICE.Name = "HTML5 Video"
 SERVICE.Id = "h5v"
 SERVICE.Base = "res"
-SERVICE.FileExtensions = {'webm'} -- 'mp4',	-- not yet supported by Awesomium -- 'ogg'	-- already registered as audio, need a work-around :(
+SERVICE.FileExtensions = {'webm','mp4','ogv','opus'} --mp4 only supported if they have run gmod CEF patch
 local base = baseclass.Get"mp_service_base"
 local res = baseclass.Get"mp_service_res"
 
 local MimeTypes = {
 	webm = "video/webm",
 	mp4 = "video/mp4",
-	ogg = "video/ogg"
+	ogv = "video/ogg",
+	opus = "audio/ogg"
 }
 
 local EmbedHTML = [[
@@ -40,8 +41,7 @@ local JS_Seek = [[(function () {
 local JS_Play = [[(function () {
 	var elem = document.getElementById('player');
 	if (elem) {		
-	elem.play();
-
+		elem.play();
 	}
 }());]]
 local JS_Pause = [[(function () {
