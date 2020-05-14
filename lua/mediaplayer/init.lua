@@ -7,9 +7,6 @@ if MediaPlayer then
 	end
 end
 
-resource.AddSingleFile "materials/mediaplayer/ui/spritesheet2015-10-7.png"
-resource.AddFile "resource/fonts/ClearSans-Medium.ttf"
-
 AddCSLuaFile "controls/dmediaplayerhtml.lua"
 AddCSLuaFile "controls/dhtmlcontrols.lua"
 AddCSLuaFile "controls/dmediaplayerrequest.lua"
@@ -21,7 +18,6 @@ AddCSLuaFile "shared.lua"
 AddCSLuaFile "sh_events.lua"
 AddCSLuaFile "sh_mediaplayer.lua"
 AddCSLuaFile "sh_services.lua"
-AddCSLuaFile "sh_history.lua"
 AddCSLuaFile "sh_metadata.lua"
 AddCSLuaFile "sh_cvars.lua"
 
