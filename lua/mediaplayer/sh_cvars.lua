@@ -24,8 +24,8 @@ if CLIENT then
 	MediaPlayer.Cvars.Audio3D		 = CreateClientConVar( "mediaplayer_3daudio", 0, true, false )
 	MediaPlayer.Cvars.Volume		 = CreateClientConVar( "mediaplayer_volume", 0.15, true, false )
 	MediaPlayer.Cvars.MuteUnfocused	 = 			GetConVar( "snd_mute_losefocus" )
-	MediaPlayer.Cvars.MuteUnfocusedX = CreateClientConVar( "mediaplayer_mute_unfocused", 0, true, false )
+	--MediaPlayer.Cvars.MuteUnfocusedX = CreateClientConVar( "mediaplayer_mute_unfocused", 0, true, false )
 	MediaPlayer.Cvars.Fullscreen	 = CreateClientConVar( "mediaplayer_fullscreen", 0, false, false )
-	MediaPlayer.Cvars.DrawThumbnails = CreateClientConVar( "mediaplayer_draw_thumbnails", 1, true, false )
+	MediaPlayer.Cvars.DrawThumbnails = CreateClientConVar( "mediaplayer_draw_thumbnails", 0, true, false )
 
 end
