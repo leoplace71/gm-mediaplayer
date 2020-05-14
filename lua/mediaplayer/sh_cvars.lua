@@ -20,7 +20,7 @@ MediaPlayer.Cvars.QueueLimit = CreateConVar( "mediaplayer_queue_limit", 64, {
 
 if CLIENT then
 
-	MediaPlayer.Cvars.Resolution	 = CreateClientConVar( "mediaplayer_resolution", 4096, true, false )
+	MediaPlayer.Cvars.Resolution	 = CreateClientConVar( "mediaplayer_resolution", 720, true, false )
 	MediaPlayer.Cvars.Audio3D		 = CreateClientConVar( "mediaplayer_3daudio", 0, true, false )
 	MediaPlayer.Cvars.Volume		 = CreateClientConVar( "mediaplayer_volume", 0.15, true, false )
 	MediaPlayer.Cvars.MuteUnfocused	 = 			GetConVar( "snd_mute_losefocus" )
