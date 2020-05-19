@@ -57,7 +57,9 @@ if SERVER then
 		if not ent.IsMediaPlayerEntity then return end
 		ent:SetCreator(ply)
 		local mp = ent:GetMediaPlayer()
-		mp:SetOwner(ply)
+		if mp then
+			mp:SetOwner(ply)
+		end
 	end )
 
 end
