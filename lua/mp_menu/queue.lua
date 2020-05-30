@@ -1,3 +1,6 @@
+pcall(include, "autorun/translation.lua")
+local L = translation and translation.L or function(s) return s end
+
 local math = math
 local ceil = math.ceil
 local clamp = math.Clamp
@@ -45,7 +48,7 @@ function QUEUE_HEADER:Init()
 	self:SetTall( self.Height )
 
 	self.Label = vgui.Create( "DLabel", self )
-	self.Label:SetText( "NEXT UP" )
+	self.Label:SetText( L "NEXT UP" )
 	self.Label:SetFont( "MP.QueueHeader" )
 
 	self.AddVidBtn = vgui.Create( "MP.AddVideoButton", self )
@@ -92,7 +95,7 @@ function ADD_VIDEO_BTN:Init()
 	self:SetPadding( 4 )
 
 	self.BtnLbl:SetFont( "MP.QueueHeader" )
-	self.BtnLbl:SetText( "ADD MEDIA" )
+	self.BtnLbl:SetText( L "ADD MEDIA" )
 	self.BtnLbl:SetTextColor( color_white )
 
 	self:SetIcon( "mp-plus" )
