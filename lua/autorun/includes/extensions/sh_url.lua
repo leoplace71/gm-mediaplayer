@@ -9,7 +9,6 @@
 -- Declare module
 -----------------------------------------------------------------------------
 local string = string
-local base = _G
 local table = table
 local pairs = pairs
 local ipairs = ipairs
