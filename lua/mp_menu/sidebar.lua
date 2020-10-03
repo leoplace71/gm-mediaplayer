@@ -1,3 +1,6 @@
+pcall(include, "autorun/translation.lua")
+local L = translation and translation.L or function(s) return s end
+
 include "icons.lua"
 include "common.lua"
 include "sidebar_tabs.lua"
@@ -27,7 +30,7 @@ function PANEL:Init()
 	self.Tabs:Dock( FILL )
 
 	local curplaytab = vgui.Create( "MP.CurrentlyPlayingTab" )
-	self.Tabs:AddSheet( "CURRENTLY PLAYING", curplaytab, nil, false, false )
+	self.Tabs:AddSheet( L "CURRENTLY PLAYING", curplaytab, nil, false, false )
 
 	-- TODO: Implement clientside media history for recently viewed tab
 	-- local panel = vgui.Create( "Panel" )

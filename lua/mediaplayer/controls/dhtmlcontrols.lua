@@ -9,6 +9,9 @@
 	Browser controls
 -----------------------------------------------------------]]
 
+pcall(include, "autorun/translation.lua")
+local L = translation and translation.L or function(s) return s end
+
 local urllib = url
 
 local PANEL = {}
@@ -271,9 +274,9 @@ end
 
 function RequestButton:SetDisabled( disabled )
 	if disabled then
-		self:SetText( "SEARCH FOR MEDIA" )
+		self:SetText( L "SEARCH FOR MEDIA" )
 	else
-		self:SetText( "REQUEST URL" )
+		self:SetText( L "REQUEST URL" )
 	end
 
 	DButton.SetDisabled( self, disabled )

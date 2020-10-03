@@ -1,3 +1,6 @@
+pcall(include, "autorun/translation.lua")
+local L = translation and translation.L or function(s) return s end
+
 local ceil = math.ceil
 local clamp = math.Clamp
 
@@ -196,13 +199,13 @@ function ADDED_BY:Init()
 
 	self.PrefixLbl = vgui.Create( "DLabel", self )
 	self.PrefixLbl:SetFont( "MP.Prefix" )
-	self.PrefixLbl:SetText( "ADDED BY" )
+	self.PrefixLbl:SetText( L "ADDED BY" )
 	self.PrefixLbl:SetTextColor( color_white )
 	self.PrefixLbl:SetContentAlignment( 8 )
 
 	self.NameLbl = vgui.Create( "DLabel", self )
 	self.NameLbl:SetFont( "MP.AddedByName" )
-	self.NameLbl:SetText( "Unknown" )
+	self.NameLbl:SetText( L "Unknown" )
 	self.NameLbl:SetTextColor( color_white )
 	self.NameLbl:SetContentAlignment( 8 )
 
@@ -329,7 +332,7 @@ derma.DefineControl( "MP.SidebarToggleButton", "", SIDEBAR_TOGGLE_BTN, "MP.Sideb
 
 local FAVORITE_BTN = {}
 
-AccessorFunc( FAVORITE_BTN, "Favorited", "Favorited" )
+AccessorFunc( FAVORITE_BTN, L "Favorited", "Favorited" )
 
 function FAVORITE_BTN:Init()
 	self.BaseClass.Init( self )
