@@ -50,6 +50,56 @@ AddMediaPlayerModel(
 	}
 )
 
+-- Сustom
+
+AddMediaPlayerModel(
+	"../spawnicons/models/hunter/plates/plate8x16",
+	"8x16 Screen",
+	"models/hunter/plates/plate8x16.mdl",
+	{
+		angle = Angle(0, 90, 0),
+		offset = Vector(-190, 380, 2),
+		width = 760,
+		height = 380
+	}
+)
+
+AddMediaPlayerModel(
+	"../spawnicons/models/hunter/plates/plate1x1",
+	"1x1 Screen",
+	"models/hunter/plates/plate1x1.mdl",
+	{
+		angle = Angle(0, 90, 0),
+		offset = Vector(-23.5, 23.5, 1.8),
+		width = 47.5,
+		height = 47.5
+	}
+)
+
+AddMediaPlayerModel(
+	"../spawnicons/models/hunter/plates/plate8x24",
+	"8x24 Screen",
+	"models/hunter/plates/plate8x24.mdl",
+	{
+		angle = Angle(0, 90, 0),
+		offset = Vector(-190, 570,2),
+		width = 1140,
+		height = 380
+	}
+)
+
+AddMediaPlayerModel(
+	"../spawnicons/models/hunter/plates/plate2x3",
+	"2x3 Screen",
+	"models/hunter/plates/plate2x3.mdl",
+	{
+		angle = Angle(0, 90, 0),
+		offset = Vector(-47, 70.5, 1.8),
+		width = 141,
+		height = 94
+	}
+)
+
 if SERVER then
 
 	-- fix for media player owner not getting set on alternate model spawn
