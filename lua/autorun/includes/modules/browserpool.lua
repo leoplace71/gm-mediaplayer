@@ -35,7 +35,7 @@ browserpool.pending = pending
 -- Minimum number of active browsers to be pooled.
 -- @type Number
 --
-local numMin = 2
+local numMin = 0
 
 ---
 -- Maximum number of active browsers to be pooled.
