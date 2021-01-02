@@ -95,13 +95,13 @@ end
 function ENT:Think()
     local thisOwner = self.CPPIGetOwner and self:CPPIGetOwner() or self:GetOwner()
 
-    if (not self._mp or not IsValid(self._mp)) and IsValid(thisOwner) then
+    if (not self._mp or not IsValid(self._mp)) and thisOwner ~= CPPI.CPPI_DEFER then
         local toFind = ents.FindByClass("mediaplayer_tv")
         table.Add(toFind, ents.FindByClass("mediaplayer_projector"))
 
         for _, ent in pairs(toFind) do
             local owner = ent.CPPIGetOwner and ent:CPPIGetOwner() or ent:GetOwner()
-            if not IsValid(ent) or not IsValid(owner) or owner ~= thisOwner then continue end
+            if not IsValid(ent) or owner == CPPI.CPPI_DEFER or owner ~= thisOwner then continue end
 
             self._mp = ent:GetMediaPlayer()
             if self._mp then
