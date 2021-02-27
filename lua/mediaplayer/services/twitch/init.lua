@@ -33,7 +33,6 @@ local function OnReceiveMetadata( self, callback, body )
 	metadata.thumbnail = response.preview
 
 	self:SetMetadata(metadata, true)
-	MediaPlayer.Metadata:Save(self)
 
 	callback(self._metadata)
 
@@ -44,50 +43,26 @@ function SERVICE:GetMetadata( callback )
 		callback( self._metadata )
 		return
 	end
+	local info = self:GetTwitchVideoInfo()
 
-	local cache = MediaPlayer.Metadata:Query(self)
-
-	if MediaPlayer.DEBUG then
-		print("MediaPlayer.GetMetadata Cache results:")
-		PrintTable(cache or {})
+	-- API call fix
+	if info.type == 'b' then
+		info.type = 'a'
 	end
 
-	if cache then
+	local apiurl = MetadataUrl:format( info.type .. info.chapterId, APIKey )
 
-		local metadata = {}
-		metadata.title = cache.title
-		metadata.duration = cache.duration
-		metadata.thumbnail = cache.thumbnail
+	self:Fetch( apiurl,
+		function( body, length, headers, code )
+			OnReceiveMetadata( self, callback, body )
+		end,
+		function( code )
+			callback(false, "Failed to load Twitch.TV ["..tostring(code).."]")
+		end,
 
-		self:SetMetadata(metadata)
-		MediaPlayer.Metadata:Save(self)
-
-		callback(self._metadata)
-
-	else
-
-		local info = self:GetTwitchVideoInfo()
-
-		-- API call fix
-		if info.type == 'b' then
-			info.type = 'a'
-		end
-
-		local apiurl = MetadataUrl:format( info.type .. info.chapterId, APIKey )
-
-		self:Fetch( apiurl,
-			function( body, length, headers, code )
-				OnReceiveMetadata( self, callback, body )
-			end,
-			function( code )
-				callback(false, "Failed to load Twitch.TV ["..tostring(code).."]")
-			end,
-
-			-- Twitch.TV API v3 headers
-			{
-				["Accept"] = "application/vnd.twitchtv.v3+json"
-			}
-		)
-
-	end
+		-- Twitch.TV API v3 headers
+		{
+			["Accept"] = "application/vnd.twitchtv.v3+json"
+		}
+	)
 end

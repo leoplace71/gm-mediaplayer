@@ -40,7 +40,6 @@ local function OnReceiveMetadata( self, callback, body )
 	metadata.duration = 3600 * 4 -- default to 4 hours
 
 	self:SetMetadata(metadata, true)
-	MediaPlayer.Metadata:Save(self)
 
 	callback(self._metadata)
 
@@ -51,39 +50,16 @@ function SERVICE:GetMetadata( callback )
 		callback( self._metadata )
 		return
 	end
+	
+	local fileId = self:GetGoogleDriveFileId()
+	local apiurl = MetadataUrl:format( fileId, APIKey )
 
-	local cache = MediaPlayer.Metadata:Query(self)
-
-	if MediaPlayer.DEBUG then
-		print("MediaPlayer.GetMetadata Cache results:")
-		PrintTable(cache or {})
-	end
-
-	if cache then
-
-		local metadata = {}
-		metadata.title = cache.title
-		metadata.duration = tonumber(cache.duration)
-		metadata.thumbnail = cache.thumbnail
-
-		self:SetMetadata(metadata)
-		MediaPlayer.Metadata:Save(self)
-
-		callback(self._metadata)
-
-	else
-
-		local fileId = self:GetGoogleDriveFileId()
-		local apiurl = MetadataUrl:format( fileId, APIKey )
-
-		self:Fetch( apiurl,
-			function( body, length, headers, code )
-				OnReceiveMetadata( self, callback, body )
-			end,
-			function( code )
-				callback(false, "Failed to load YouTube ["..tostring(code).."]")
-			end
-		)
-
-	end
+	self:Fetch( apiurl,
+		function( body, length, headers, code )
+			OnReceiveMetadata( self, callback, body )
+		end,
+		function( code )
+			callback(false, "Failed to load YouTube ["..tostring(code).."]")
+		end
+	)
 end

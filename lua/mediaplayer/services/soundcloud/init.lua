@@ -47,7 +47,6 @@ local function OnReceiveMetadata( self, callback, body )
 	}
 
 	self:SetMetadata(metadata, true)
-	MediaPlayer.Metadata:Save(self)
 
 	self.url = stream .. "?client_id=" .. ClientId
 
@@ -59,51 +58,17 @@ function SERVICE:GetMetadata( callback )
 		callback( self._metadata )
 		return
 	end
+	-- TODO: predetermine if we can skip the call to /resolve; check for
+	-- /track or /playlist in the url path.
 
-	local cache = MediaPlayer.Metadata:Query(self)
+	local apiurl = MetadataUrl.resolve:format( self.url )
 
-	if MediaPlayer.DEBUG then
-		print("MediaPlayer.GetMetadata Cache results:")
-		PrintTable(cache or {})
-	end
-
-	if cache then
-
-		local metadata = {}
-		metadata.title = cache.title
-		metadata.duration = tonumber(cache.duration)
-		metadata.thumbnail = cache.thumbnail
-
-		metadata.extra = cache.extra
-
-		self:SetMetadata(metadata)
-		MediaPlayer.Metadata:Save(self)
-
-		if metadata.extra then
-			local extra = util.JSONToTable(metadata.extra)
-
-			if extra.stream then
-				self.url = tostring(extra.stream) .. "?client_id=" .. ClientId
-			end
+	self:Fetch( apiurl,
+		function( body, length, headers, code )
+			OnReceiveMetadata( self, callback, body )
+		end,
+		function( code )
+			callback(false, "Failed to load SoundCloud ["..tostring(code).."]")
 		end
-
-		callback(self._metadata)
-
-	else
-
-		-- TODO: predetermine if we can skip the call to /resolve; check for
-		-- /track or /playlist in the url path.
-
-		local apiurl = MetadataUrl.resolve:format( self.url )
-
-		self:Fetch( apiurl,
-			function( body, length, headers, code )
-				OnReceiveMetadata( self, callback, body )
-			end,
-			function( code )
-				callback(false, "Failed to load YouTube ["..tostring(code).."]")
-			end
-		)
-
-	end
+	)
 end

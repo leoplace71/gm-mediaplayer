@@ -19,7 +19,6 @@ local function OnReceiveMetadata( self, callback, body )
 	metadata.thumbnail	= data.thumbnail_medium
 
 	self:SetMetadata(metadata, true)
-	MediaPlayer.Metadata:Save(self)
 
 	callback(self._metadata)
 
@@ -30,39 +29,15 @@ function SERVICE:GetMetadata( callback )
 		callback( self._metadata )
 		return
 	end
+	local videoId = self:GetVimeoVideoId()
+	local apiurl = MetadataUrl:format( videoId )
 
-	local cache = MediaPlayer.Metadata:Query(self)
-
-	if MediaPlayer.DEBUG then
-		print("MediaPlayer.GetMetadata Cache results:")
-		PrintTable(cache or {})
-	end
-
-	if cache then
-
-		local metadata = {}
-		metadata.title = cache.title
-		metadata.duration = cache.duration
-		metadata.thumbnail = cache.thumbnail
-
-		self:SetMetadata(metadata)
-		MediaPlayer.Metadata:Save(self)
-
-		callback(self._metadata)
-
-	else
-
-		local videoId = self:GetVimeoVideoId()
-		local apiurl = MetadataUrl:format( videoId )
-
-		self:Fetch( apiurl,
-			function( body, length, headers, code )
-				OnReceiveMetadata( self, callback, body )
-			end,
-			function( code )
-				callback(false, "Failed to load Vimeo ["..tostring(code).."]")
-			end
-		)
-
-	end
+	self:Fetch( apiurl,
+		function( body, length, headers, code )
+			OnReceiveMetadata( self, callback, body )
+		end,
+		function( code )
+			callback(false, "Failed to load Vimeo ["..tostring(code).."]")
+		end
+	)
 end

@@ -12,7 +12,6 @@ local function titleFallback(self, callback)
 	self._metadata.title = title
 
 	self:SetMetadata(self._metadata, true)
-	MediaPlayer.Metadata:Save(self)
 
 	callback(self._metadata)
 end
@@ -75,7 +74,6 @@ function SERVICE:GetMetadata( callback )
 
 		if callback then
 			self:SetMetadata(self._metadata, true)
-			MediaPlayer.Metadata:Save(self)
 
 			callback(self._metadata)
 		end

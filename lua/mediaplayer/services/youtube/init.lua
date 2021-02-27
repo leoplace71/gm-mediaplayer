@@ -53,68 +53,38 @@ function SERVICE:GetMetadata( callback )
 		callback( self._metadata )
 		return
 	end
+	local videoId = self:GetYouTubeVideoId()
+	local videoUrl = "https://www.youtube.com/watch?v="..videoId
 
-	local cache = MediaPlayer.Metadata:Query(self)
+	self:Fetch( videoUrl,
+		-- On Success
+		function( body, length, headers, code )
+			local status, metadata = pcall(self.ParseYTMetaDataFromHTML, self, body)
 
-	if MediaPlayer.DEBUG then
-		print("MediaPlayer.GetMetadata Cache results:")
-		PrintTable(cache or {})
-	end
-
-	if cache then
-
-		local metadata = {}
-
-		metadata.title = cache.title
-		metadata.duration = tonumber(cache.duration)
-		metadata.thumbnail = cache.thumbnail
-
-		self:SetMetadata(metadata)
-
-		if self:IsTimed() then
-			MediaPlayer.Metadata:Save(self)
-		end
-
-		callback(self._metadata)
-
-	else
-		local videoId = self:GetYouTubeVideoId()
-		local videoUrl = "https://www.youtube.com/watch?v="..videoId
-
-		self:Fetch( videoUrl,
-			-- On Success
-			function( body, length, headers, code )
-				local status, metadata = pcall(self.ParseYTMetaDataFromHTML, self, body)
-
-				-- html couldn't be parsed
-				if not status or not metadata.title or not isnumber(metadata.duration) then
-					-- Title is nil or Duration is nan
-					if istable(metadata) then
-						metadata = "title = "..type(metadata.title)..", duration = "..type(metadata.duration)
-					end
-					-- Misc error
-					callback(false, "Failed to parse HTML Page for metadata: "..metadata)
-					return
+			-- html couldn't be parsed
+			if not status or not metadata.title or not isnumber(metadata.duration) then
+				-- Title is nil or Duration is nan
+				if istable(metadata) then
+					metadata = "title = "..type(metadata.title)..", duration = "..type(metadata.duration)
 				end
+				-- Misc error
+				callback(false, "Failed to parse HTML Page for metadata: "..metadata)
+				return
+			end
 
-				self:SetMetadata(metadata, true)
+			self:SetMetadata(metadata, true)
 
-				if self:IsTimed() then
-					MediaPlayer.Metadata:Save(self)
-				end
-
-				callback(self._metadata)
-			end,
-			-- On failure
-			function( code )
-				callback(false, "Failed to load YouTube ["..tostring(code).."]")
-			end,
-			-- Headers
-			{
-				["User-Agent"] = "Googlebot"
-			}
-		)
-	end
+			callback(self._metadata)
+		end,
+		-- On failure
+		function( code )
+			callback(false, "Failed to load YouTube ["..tostring(code).."]")
+		end,
+		-- Headers
+		{
+			["User-Agent"] = "Googlebot"
+		}
+	)
 end
 
 ---
