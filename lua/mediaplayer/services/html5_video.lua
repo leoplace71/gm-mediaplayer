@@ -2,7 +2,7 @@
 SERVICE.Name = "HTML5 Video"
 SERVICE.Id = "h5v"
 SERVICE.Base = "res"
-SERVICE.FileExtensions = {'webm','mp4','ogv','opus'} --mp4 only supported if they have run gmod CEF patch
+SERVICE.FileExtensions = {'webm','mp4','ogv','opus','m3u8'} --mp4 only supported if they have run gmod CEF patch
 local base = baseclass.Get"mp_service_base"
 local res = baseclass.Get"mp_service_res"
 
