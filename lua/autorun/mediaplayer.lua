@@ -58,6 +58,7 @@ local function LoadMediaPlayer()
 		AddCSLuaFile "includes/modules/inputhook.lua"
 		AddCSLuaFile "includes/modules/htmlmaterial.lua"
 		AddCSLuaFile "includes/modules/spritesheet.lua"
+		AddCSLuaFile(basepath .. "cl_translations.lua")
 
 		-- initialize serverside mediaplayer
 		IncludeMP "init.lua"
