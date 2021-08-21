@@ -7,6 +7,7 @@ if MediaPlayer then
 	end
 end
 
+include "cl_translations.lua"
 include "controls/dmediaplayerhtml.lua"
 include "controls/dhtmlcontrols.lua"
 include "controls/dmediaplayerrequest.lua"
