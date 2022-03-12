@@ -29,7 +29,7 @@ local HttpHeaders = {
 	["Connection"] = "keep-alive",
 
 	-- Required for Google API requests; uses browser API key.
-	["Referer"] = MediaPlayer.GetConfigValue('google.referrer'),
+	--["Referer"] = MediaPlayer.GetConfigValue('google.referrer'),
 
 	-- Don't use improperly formatted GMod user agent in case anything actually
 	-- checks the user agent.
@@ -70,8 +70,8 @@ function SERVICE:Fetch( url, onReceive, onFailure, headers )
 		local tbl = table.Copy( HttpHeaders )
 		table.Merge( tbl, headers )
 		request.headers = tbl
-	else
-		request.headers = HttpHeaders
+--	else
+--		request.headers = HttpHeaders
 	end
 
 	if MediaPlayer.DEBUG then
