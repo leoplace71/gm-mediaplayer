@@ -33,7 +33,7 @@ local HttpHeaders = {
 
 	-- Don't use improperly formatted GMod user agent in case anything actually
 	-- checks the user agent.
-	["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"
+	--["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36"
 }
 
 function SERVICE:Fetch( url, onReceive, onFailure, headers )
